@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Arc USDC Tip Jar</title>
+<meta name="description" content="Tip in USDC on Arc mainnet. UsdcTipJar contract at 0x8Ab0Aa71f4a80f64024faAd7068278645b70f0C3 (chain 5042)." />
+<style>
+  :root{--bg:#fafafa;--fg:#111;--muted:#666;--card:#fff;--border:#e5e5e5;--accent:#2b59ff}
+  @media (prefers-color-scheme:dark){:root{--bg:#0b0b0c;--fg:#ededed;--muted:#9a9a9a;--card:#141416;--border:#262629;--accent:#7f9cff}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  main{max-width:760px;margin:0 auto;padding:48px 20px}
+  h1{font-size:24px;margin:0 0 6px} h2{font-size:17px;margin:32px 0 10px}
+  .muted{color:var(--muted)} a{color:var(--accent)}
+  .card{border:1px solid var(--border);background:var(--card);border-radius:8px;padding:16px}
+  code{word-break:break-all}
+  pre{overflow-x:auto;border:1px solid var(--border);background:var(--card);border-radius:6px;padding:12px;font-size:12px}
+  label{display:block;margin:10px 0 4px}
+  input{width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--fg);font:inherit}
+  button{margin-top:12px;padding:9px 14px;border:0;border-radius:6px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  table{width:100%;border-collapse:collapse;font-size:12px} td,th{text-align:left;padding:6px 4px;border-bottom:1px solid var(--border);vertical-align:top}
+  #log{white-space:pre-wrap}
+</style>
+</head>
+<body>
+<main>
+  <h1>Arc USDC Tip Jar</h1>
+  <p class="muted">Send a USDC tip on <b>Arc mainnet</b> (chain 5042). Tips go through the
+    <code>UsdcTipJar</code> contract straight to its owner, as 6-decimal ERC-20 USDC. Gas on Arc is also paid in USDC.</p>
+
+  <h2>Contract</h2>
+  <div class="card" id="status">
+    <p>Tip jar: <a id="jarLink" target="_blank" rel="noreferrer"><code id="jarAddr"></code></a></p>
+    <p>Owner: <code id="owner">loading…</code></p>
+    <p>Owner USDC balance: <code id="ownerBal">loading…</code></p>
+    <p>Chain: Arc mainnet · id 5042 · RPC <code>https://rpc.mainnet.arc.io</code> ·
+      <a href="https://explorer.arc.io" target="_blank" rel="noreferrer">explorer.arc.io</a></p>
+    <p>USDC (ERC-20, 6 decimals): <code>0x3600000000000000000000000000000000000000</code></p>
+  </div>
+
+  <h2>Send a tip</h2>
+  <div class="card">
+    <p class="muted">Needs a browser wallet (MetaMask, Rabby, …) holding USDC on Arc. You sign two transactions: approve, then tip.</p>
+    <label for="amount">Amount (USDC)</label>
+    <input id="amount" value="0.10" inputmode="decimal" />
+    <label for="note">Note (optional, public on-chain)</label>
+    <input id="note" maxlength="120" placeholder="thanks!" />
+    <button id="connect">Connect wallet</button>
+    <button id="tip" disabled>Approve &amp; tip</button>
+    <p id="log" class="muted"></p>
+  </div>
+
+  <h2>Recent tips <span class="muted" style="font-size:12px">(read live from Tipped events)</span></h2>
+  <div class="card">
+    <table><thead><tr><th>Block</th><th>From</th><th>USDC</th><th>Note</th><th>Tx</th></tr></thead>
+    <tbody id="tips"><tr><td colspan="5" class="muted">loading…</td></tr></tbody></table>
+    <p class="muted" id="tipsNote"></p>
+  </div>
+
+  <h2>For agents and scripts</h2>
+  <pre id="cli"></pre>
+  <p class="muted">Machine-readable summary: <a href="llms.txt">llms.txt</a>. The repo also has an x402-paid
+    Next.js agent service (<code>/api/arc-status</code>, <code>/api/tip-intent</code>, $0.001 USDC per call on Arc)
+    you can run yourself. Source: <a href="https://github.com/jenil04/arc-usdc-tipjar">github.com/jenil04/arc-usdc-tipjar</a> (MIT).</p>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

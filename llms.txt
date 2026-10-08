@@ -1,0 +1,23 @@
+# Arc USDC Tip Jar
+
+> A USDC tip jar on Arc mainnet (chain id 5042). Tips are 6-decimal ERC-20 USDC sent through the UsdcTipJar contract to its owner.
+
+- Contract (UsdcTipJar): 0x8Ab0Aa71f4a80f64024faAd7068278645b70f0C3
+- Explorer: https://explorer.arc.io/address/0x8Ab0Aa71f4a80f64024faAd7068278645b70f0C3
+- Chain: Arc mainnet, chain id 5042, RPC https://rpc.mainnet.arc.io
+- USDC ERC-20 (6 decimals): 0x3600000000000000000000000000000000000000 (native gas is also USDC, 18 decimals; never mix them)
+- Source: https://github.com/jenil04/arc-usdc-tipjar (MIT)
+
+## How to tip
+
+1. USDC.approve(0x8Ab0Aa71f4a80f64024faAd7068278645b70f0C3, amountAtomic)
+2. UsdcTipJar.tip(amountAtomic, note)  // selector 0x0d9d4f06; emits Tipped(address indexed from, uint256 amount, string note)
+
+1 USDC = 1000000 atomic units.
+
+## Agent service (x402)
+
+The repo includes a Next.js agent service with paid endpoints on Arc (eip155:5042), $0.001 USDC per call:
+- GET /api/arc-status: live tip-jar owner, balance, explorer link
+- GET /api/tip-intent?amount=0.5&note=hello: approve + tip calldata / cast commands
+Run it yourself with `npm install && npm run dev` (see README).
